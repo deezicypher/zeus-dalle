@@ -21,12 +21,15 @@ const CreatePost = () => {
 
   }
 
-  const handleChange = () =>{
+  const handleChange = (e) =>{
+    setForm({...form,[e.target.name] : e.target.value})
 
   }
 
   const handleSupriseMe = () =>{
-
+    const randomPrompt = getRandomPrompt(form.prompt);
+    setForm({...form, prompt:randomPrompt})
+ 
   }
 
   const generateImage = () => {
@@ -47,16 +50,16 @@ const CreatePost = () => {
         <form className='mt-16 max-w-3xl' onSubmit={handleSubmit}>
           <div className='flex flex-col gap-5'>
             <FormField 
-            label='Name' type='text' name='name' placeholder='John Doe' 
+            labelName='Name' type='text' name='name' placeholder='John Doe' 
             value={form.name} 
             handleChange={handleChange} 
             />
               <FormField 
-            label='Promt' type='text' name='promt' placeholder='Meta Zeus' 
+            labelName='Prompt' type='text' name='promt' placeholder='Meta Zeus' 
             value={form.prompt} 
             handleChange={handleChange} 
             isSupriseMe
-            handleSupriseMe
+            handleSupriseMe={handleSupriseMe}
             />
             <div className='relative bg-gray-15 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#46acff] focus:border-[#46acff] w-64 p-3 
             h-64 flex justify-center items-center'>
