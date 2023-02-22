@@ -10,7 +10,7 @@ const FormField = ({labelName, type, name, value, handleChange, isSupriseMe, han
             >
             {labelName}
             </label>
-            {!isSupriseMe &&
+            {isSupriseMe &&
             <button 
             type='button' 
             onClick={handleSupriseMe} 
