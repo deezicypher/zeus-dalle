@@ -32,8 +32,27 @@ const CreatePost = () => {
  
   }
 
-  const generateImage = () => {
-
+  const generateImage = async () => {
+    if(form.prompt){
+      try {
+        setGeneratingImg(true)
+        const response = await fetch('http://localhost:8080/api/v1/dalle',{
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({prompt:form.prompt})
+        })
+        const data = await response.json()
+        setForm({...form, photo: `data:image/png;base64,${data.photo}`})
+      } catch (error) {
+        console.log(error)
+      }finally{
+        setGeneratingImg(false)
+      }
+    }else{
+      alert('Please enter a prompt')
+    }
   }
 
 
@@ -76,10 +95,11 @@ const CreatePost = () => {
               className="w-9/12 h-9/12 object-contain opacity-40"
               />
             }
-            {generatingImg && 
+            {generatingImg  && 
             <div className="absolute inset-0 z-0 flex justify-center items-center bg-[rgba(0,0,0,0.5)] rounded-lg">
               <Loader/> 
             </div>
+            
             }
             </div>
           </div>
@@ -90,7 +110,7 @@ const CreatePost = () => {
       onClick={generateImage} 
       className="text-white text-center bg-[#157c7e] font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 "
       >
-{generatingImg? 'Generating...' : 'Generate'}
+{generatingImg  ? 'Generating...' : 'Generate'}
       </button>
      </div>
      <div className='mt-10 '>
